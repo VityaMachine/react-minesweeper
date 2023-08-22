@@ -21,11 +21,11 @@ export default function Field({ fieldDimension, minesCount }) {
   }, []);
 
   useEffect(() => {
-    if (nonMineCount === 0 && usedFlags === 10) {
+    if (nonMineCount === 0 && usedFlags === minesCount) {
       setGameStatus("won");
       alert("Well Played!! You won");
     }
-  }, [nonMineCount, usedFlags]);
+  });
 
   const createNewField = () => {
     const newField = fieldMaker(dimension, minesCount);
