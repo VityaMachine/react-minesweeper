@@ -1,17 +1,17 @@
 {
   "files": {
     "main.css": "/react-minesweeper/static/css/main.2cf24ccf.css",
-    "main.js": "/react-minesweeper/static/js/main.8707b775.js",
+    "main.js": "/react-minesweeper/static/js/main.5ebcc86a.js",
     "static/media/mine-sweeper.ttf": "/react-minesweeper/static/media/mine-sweeper.902106bc54258eb4d3d2.ttf",
     "static/media/bomb-svgrepo-com.svg": "/react-minesweeper/static/media/bomb-svgrepo-com.b0716235e3f0ed209d3d0b65c3c0da1e.svg",
     "static/media/flag-founded-svgrepo-com.svg": "/react-minesweeper/static/media/flag-founded-svgrepo-com.5479e2dbc51679cce932835d5448f1de.svg",
     "static/media/flag-svgrepo-com.svg": "/react-minesweeper/static/media/flag-svgrepo-com.9ae691c8bcf31b27ecbaab489cf2e2e8.svg",
     "index.html": "/react-minesweeper/index.html",
     "main.2cf24ccf.css.map": "/react-minesweeper/static/css/main.2cf24ccf.css.map",
-    "main.8707b775.js.map": "/react-minesweeper/static/js/main.8707b775.js.map"
+    "main.5ebcc86a.js.map": "/react-minesweeper/static/js/main.5ebcc86a.js.map"
   },
   "entrypoints": [
     "static/css/main.2cf24ccf.css",
-    "static/js/main.8707b775.js"
+    "static/js/main.5ebcc86a.js"
   ]
 }
