@@ -1,21 +1,36 @@
 import React, { useState, useEffect } from "react";
+
+import styles from "./Field.module.css";
+
 import Sector from "../Sector";
 
 import fieldMaker from "../../utils/fieldMaker";
 import sectorReveal from "../../utils/sectorReveal";
 
-export default function Field() {
-  const [dimension, setDimension] = useState(8);
+export default function Field({ fieldDimension, minesCount }) {
+  const [dimension, setDimension] = useState(fieldDimension);
   const [gameField, setGameField] = useState([]);
   const [nonMineCount, setNonMineCount] = useState(0);
   const [mineLocation, setMineLocation] = useState([]);
   const [gameStatus, setGameStatus] = useState("preparing");
   const [usedFlags, setUsedFlags] = useState(0);
+  const [lastCoordinate, setLastCoordinate] = useState({ x: null, y: null });
+
+  useEffect(() => {
+    createNewField();
+  }, []);
+
+  useEffect(() => {
+    if (nonMineCount === 0 && usedFlags === 10) {
+      setGameStatus("won");
+      alert("Well Played!! You won");
+    }
+  }, [nonMineCount, usedFlags]);
 
   const createNewField = () => {
-    const newField = fieldMaker(dimension, 10);
+    const newField = fieldMaker(dimension, minesCount);
 
-    setNonMineCount(dimension * dimension - 10);
+    setNonMineCount(dimension * dimension - minesCount);
     setMineLocation(newField.minesLocation);
 
     setGameField(newField.field);
@@ -47,6 +62,9 @@ export default function Field() {
     }
 
     let newField = [...gameField];
+
+    setLastCoordinate({ x, y });
+
     if (newField[x][y].value === "x") {
       alert("clicked on mine. You lose");
 
@@ -58,6 +76,7 @@ export default function Field() {
     } else {
       let revealedField = sectorReveal(newField, x, y, nonMineCount);
       setGameField(revealedField.arr);
+      countUsedFlags();
       setNonMineCount(revealedField.newNonMines);
       setGameStatus("game");
     }
@@ -67,6 +86,7 @@ export default function Field() {
     setGameStatus("preparing");
     setUsedFlags(0);
     createNewField();
+    setLastCoordinate({ x: null, y: null });
   };
 
   const countUsedFlags = () => {
@@ -74,42 +94,35 @@ export default function Field() {
 
     for (let i = 0; i < gameField.length; i++) {
       for (let j = 0; j < gameField[i].length; j++) {
-        gameField[i][j].isFlagged && usedFlags++;
+        gameField[i][j].isFlagged && !gameField[i][j].isRevealed && usedFlags++;
       }
     }
 
     setUsedFlags(usedFlags);
   };
 
-  useEffect(() => {
-    createNewField();
-  }, []);
-
-  useEffect(() => {
-    if (nonMineCount === 0 && usedFlags === 10) {
-      setGameStatus("won")
-      alert("Well Played!! You won");
-    }
-  }, [nonMineCount, usedFlags]);
-
   return (
-    <div className="parent">
-      <div style={{ textAlign: "center", fontSize: "35px" }}>
-        Non-Mines : {nonMineCount}
-      </div>
-      <div style={{ textAlign: "center", fontSize: "35px" }}>
-        Set flags : {usedFlags} / 10
+    <div className={styles.container}>
+      <div className={styles.infoText}>Non-Mines : {nonMineCount}</div>
+      <div
+        className={
+          usedFlags > minesCount ? styles.infoTextError : styles.infoText
+        }
+      >
+        Set flags : {usedFlags} / {minesCount}
       </div>
 
-      <div>
+      <div className={styles.fieldContainer}>
         {gameField.map((row, i) => (
-          <div key={i} style={{ display: "flex", flexDirection: "row" }}>
+          <div key={i} className={styles.gameField}>
             {row.map((cell, i) => (
               <Sector
                 key={i}
                 details={cell}
                 updateFlag={updateFlag}
                 revealSector={revealSector}
+                gameStatus={gameStatus}
+                lastCoordinate={lastCoordinate}
               />
             ))}
           </div>
@@ -117,7 +130,9 @@ export default function Field() {
       </div>
 
       {gameStatus !== "preparing" && (
-        <button onClick={onStartNewGame}>Start new</button>
+        <button className={styles.newGameBtn} onClick={onStartNewGame}>
+          Start new
+        </button>
       )}
     </div>
   );

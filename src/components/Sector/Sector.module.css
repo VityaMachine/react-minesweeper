@@ -1,0 +1,81 @@
+@font-face {
+  font-family: MineSweeperFont;
+  src: url("../../assets/fonts/mine-sweeper.ttf");
+}
+
+.main {
+  box-sizing: border-box;
+  width: 40px;
+  height: 40px;
+  background-color: #bdbdbd;
+  border-left: 5px solid #ffffff;
+  border-top: 5px solid #ffffff;
+  border-right: 5px solid #7b7b7b;
+  border-bottom: 5px solid #7b7b7b;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 20px;
+  cursor: pointer;
+  font-family: MineSweeperFont, serif;
+  font-weight: 1000;
+}
+
+.revealed {
+  composes: main;
+  border: 2px solid #7c7c7c;
+}
+
+.revealed1 {
+  composes: revealed;
+  color: #0002fb;
+}
+
+.revealed2 {
+  composes: revealed;
+  color: #017e00;
+}
+
+.revealed3 {
+  composes: revealed;
+  color: #fe0102;
+}
+
+.revealed4 {
+  composes: revealed;
+  color: #010080;
+}
+
+.revealed5 {
+  composes: revealed;
+  color: #7e0001;
+}
+
+.revealed6 {
+  composes: revealed;
+  color: #027f7e;
+}
+
+.revealed7 {
+  composes: revealed;
+  color: #000000;
+}
+
+.revealed8 {
+  composes: revealed;
+  color: #c0c0c0;
+}
+
+.detonated {
+  composes: main;
+  background-color: #e42121;
+  border-left: 5px solid #ff4e4e;
+  border-top: 5px solid #ff4e4e;
+  border-right: 5px solid #941515;
+  border-bottom: 5px solid #941515;
+}
+
+.svgImg {
+  width: 30px;
+  height: 30px;
+}
