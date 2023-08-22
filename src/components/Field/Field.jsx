@@ -112,6 +112,9 @@ export default function Field({ fieldDimension, minesCount }) {
         Set flags : {usedFlags} / {minesCount}
       </div>
 
+
+
+
       <div className={styles.fieldContainer}>
         {gameField.map((row, i) => (
           <div key={i} className={styles.gameField}>
@@ -128,6 +131,8 @@ export default function Field({ fieldDimension, minesCount }) {
           </div>
         ))}
       </div>
+
+      {gameStatus === "won" && <div className={styles.infoTextSuccess}>Well Played!!! You win!!!</div>} 
 
       {gameStatus !== "preparing" && (
         <button className={styles.newGameBtn} onClick={onStartNewGame}>
