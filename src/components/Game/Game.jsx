@@ -57,7 +57,7 @@ export default function Game() {
       {status === "rdy2play" && (
         <>
           <button onClick={resetFieldHandler}>Reset field</button>
-          <Field fieldDimension={fieldDimension} minesCount={minesCount} />
+          <Field fieldDimension={fieldDimension} minesCount={minesCount} onResetField={resetFieldHandler}/>
         </>
       )}
     </div>

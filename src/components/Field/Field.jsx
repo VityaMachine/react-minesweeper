@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 
 import styles from "./Field.module.css";
 
@@ -6,8 +6,9 @@ import Sector from "../Sector";
 
 import fieldMaker from "../../utils/fieldMaker";
 import sectorReveal from "../../utils/sectorReveal";
+import WinModal from "../WinModal/WinModal";
 
-export default function Field({ fieldDimension, minesCount }) {
+export default function Field({ fieldDimension, minesCount, onResetField }) {
   const [dimension, setDimension] = useState(fieldDimension);
   const [gameField, setGameField] = useState([]);
   const [nonMineCount, setNonMineCount] = useState(0);
@@ -15,6 +16,7 @@ export default function Field({ fieldDimension, minesCount }) {
   const [gameStatus, setGameStatus] = useState("preparing");
   const [usedFlags, setUsedFlags] = useState(0);
   const [lastCoordinate, setLastCoordinate] = useState({ x: null, y: null });
+  const [winModalOpen, setWinModalOpen] = useState(false);
 
   useEffect(() => {
     createNewField();
@@ -23,7 +25,7 @@ export default function Field({ fieldDimension, minesCount }) {
   useEffect(() => {
     if (nonMineCount === 0 && usedFlags === minesCount) {
       setGameStatus("won");
-      alert("Well Played!! You won");
+      setWinModalOpen(true);
     }
   });
 
@@ -101,6 +103,11 @@ export default function Field({ fieldDimension, minesCount }) {
     setUsedFlags(usedFlags);
   };
 
+  const onCloseAndRestart = () => {
+    setWinModalOpen(false);
+    onStartNewGame();
+  };
+
   return (
     <div className={styles.container}>
       <div className={styles.infoText}>Non-Mines : {nonMineCount}</div>
@@ -111,9 +118,6 @@ export default function Field({ fieldDimension, minesCount }) {
       >
         Set flags : {usedFlags} / {minesCount}
       </div>
-
-
-
 
       <div className={styles.fieldContainer}>
         {gameField.map((row, i) => (
@@ -132,7 +136,12 @@ export default function Field({ fieldDimension, minesCount }) {
         ))}
       </div>
 
-      {gameStatus === "won" && <div className={styles.infoTextSuccess}>Well Played!!! You win!!!</div>} 
+      {winModalOpen && (
+        <WinModal
+          onCloseAndRestart={onCloseAndRestart}
+          onCloseAndSelNewLvl={onResetField}
+        />
+      )}
 
       {gameStatus !== "preparing" && (
         <button className={styles.newGameBtn} onClick={onStartNewGame}>
